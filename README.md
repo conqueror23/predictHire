@@ -5,6 +5,8 @@
 2. Do we need to seperate BFF layer out fron front-end or if we could use then in the same nextjs project
 3. seperate services, currently thoughts if based on the services requests which are : company info, vacant info and users info
 4. These three services are independent but there are some inner connection between them. multiple vacant are linked to one company, multiple users belongs to a company, one user may have multiple vacant ?
+5. how many dbs do we need ? It can be assigned three dbs to achiev each independent services, and each of them are all dependent but use one db is also  achievable.
+6. Can nextjs api route plays as a BFF?
 
 ## Project structure
 
