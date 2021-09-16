@@ -1,29 +1,52 @@
-version: '2'
+version: "2"
 
 services:
-    mongo:
-        container_name: ph_mongo
-        image: mongo:latest
-        ports:
-            - "27017:27017"
-        volumes:
-            - "mongo/db:data/db"
+  mongo:
+    container_name: ph_mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - "mongo/db:data/db"
 
-    nginx:
-        build: ./nginx
-        container_name: ph_nginx
-        links:
-            - company
-            - user
-            - vacant
-        ports:
-            - 80:80
+  nginx:
+    build: ./nginx
+    container_name: ph_nginx
+    links:
+      - company
+      - user
+      - vacant
+    ports:
+      - 80:80
 
-    company:
+  company:
+    build: ./company
+    container_name: ph_company
+    depends_on:
+      - "mongo"
+    volumes:
+      - "./company:src/app"
+    working_dir: "src/app"
+    command: "npm run start"
 
-    user:
+  user:
+    build: ./user
+    container_name: ph_user
+    depends_on:
+      - "mongo"
+    volumes:
+      - "./user:src/app"
+    working_dir: "src/app"
+    command: "npm run start"
 
-    vacant:
 
-
+  vacant:
+    build: ./vacant
+    container_name: ph_vacant
+    depends_on:
+      - "mongo"
+    volumes:
+      - "./vacant:src/app"
+    working_dir: "src/app"
+    command: "npm run start"
 
