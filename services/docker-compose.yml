@@ -27,6 +27,8 @@ services:
     volumes:
       - "./company:src/app"
     working_dir: "src/app"
+    ports:
+      - "3001:3000"
     command: "npm run start"
 
   user:
@@ -37,6 +39,8 @@ services:
     volumes:
       - "./user:src/app"
     working_dir: "src/app"
+    ports:
+      - "3002:3000"
     command: "npm run start"
 
 
@@ -48,5 +52,7 @@ services:
     volumes:
       - "./vacant:src/app"
     working_dir: "src/app"
+    ports:
+      - "3003:3000"
     command: "npm run start"
 
