@@ -1,0 +1,6 @@
+From node:lts
+
+MAINTAINER bruce
+
+CMD npm install
+
