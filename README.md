@@ -2,17 +2,15 @@
 
 ##Thoughts:
 1. for simplicity purpose all three services are combined in one repo it can be seperated to individual repos in real daily use, we might potentially use docker-compose to create envs for all three and treated it as a big project.
-2. Do we need to seperate BFF layer out fron front-end or if we could use then in the same nextjs project
+2. Do we need to seperate BFF layer out fron front-end or if we could use then in the same nextjs project ? Since Nextjs provid a API routes setup we could pontential use it as a BFF for this project
 3. seperate services, currently thoughts if based on the services requests which are : company info, vacant info and users info
 4. These three services are independent but there are some inner connection between them. multiple vacant are linked to one company, multiple users belongs to a company, one user may have multiple vacant ?
 5. how many dbs do we need ? It can be assigned three dbs to achiev each independent services, and each of them are all dependent but use one db is also  achievable.
-6. Can nextjs api route plays as a BFF?
 
 ## Project structure
 
 Front-end NextJs: for reveal front end UIs, could be simple info display for this test (cross-browser and cross-devices may not designedand implemented) [nextjs,reactjs,typescript,jest]
-
-BFF: services to gather request from front-end and to sent to different services [nodejs,typescript,jest]
+BFF: services to gather request from front-end and to sent to different services [nextjs,nodejs,typescript,jest]
 
 Back-end services:
     login service for users
