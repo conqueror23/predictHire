@@ -12,7 +12,7 @@ services:
   nginx:
     build: ./nginx
     container_name: ph_nginx
-    links:
+    depends_on:
       - company
       - user
       - vacant
