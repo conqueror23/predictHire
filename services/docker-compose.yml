@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+    mongo:
+        container_name: ph_mongo
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+        volumes:
+            - "mongo/db:data/db"
+
+    nginx:
+        build: ./nginx
+        container_name: ph_nginx
+        links:
+            - company
+            - user
+            - vacant
+        ports:
+            - 80:80
+
+    company:
+
+    user:
+
+    vacant:
+
+
+
