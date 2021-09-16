@@ -41,14 +41,15 @@ const createDocument = async (
     return connectMongo(insertDocQuery)
 };
 
-const findAllDocs = async (collectionName: string) => {
+const findAllDocs = async (collectionName: string,filters:Object) => {
 
   const findAllQuery = async (client:any) => {
       try {
+
         const result = await client
           .db(MONGO_DBNAME)
           .collection(collectionName)
-          .find()
+          .find(filters)
           .toArray();
         return result;
       } catch (e) {

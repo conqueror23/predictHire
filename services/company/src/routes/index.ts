@@ -1,13 +1,31 @@
 import { app } from "../";
 import { findAllDocs, createDocument } from "../mongo";
 
-const dotenv =require('dotenv')
-const ENV = dotenv.config().parsed
-const {MONGO_COLLECTION} = ENV
+const dotenv = require("dotenv");
+const ENV = dotenv.config().parsed;
+const { MONGO_COLLECTION } = ENV;
 
 app.get("/", async (req, res) => {
   try {
-    const data = await findAllDocs(MONGO_COLLECTION);
+    const data = await findAllDocs(MONGO_COLLECTION, {});
+    res.send({
+      status: 200,
+      message: data,
+    });
+  } catch (e) {
+    console.log("error in '/' get route", e);
+    res.send({
+      status: 500,
+      message: "server error",
+    });
+  }
+});
+
+app.get("/find/:queryParam", async (req, res) => {
+  const { queryParam } = req.params;
+  console.log(queryParam)
+  try {
+    const data = await findAllDocs(MONGO_COLLECTION, {});
     res.send({
       status: 200,
       message: data,
@@ -22,8 +40,8 @@ app.get("/", async (req, res) => {
 });
 
 (async () => {
-  const data = await findAllDocs("company");
-    // const tempCompany ={"name":"Amazing","address":"earth"}
+  const data = await findAllDocs(MONGO_COLLECTION, {"name":{$eq:"Amazing"}});
+  // const tempCompany ={"name":"Amazing","address":"earth"}
   // const data = await createDocument("company",tempCompany)
 
   console.log("requested data", JSON.stringify(data));
