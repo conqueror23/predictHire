@@ -1,11 +1,15 @@
 import { app } from "../";
-import { findAllDocs, createDocument,updateOneDoc,deleteDoc} from "../mongo";
+import { findAllDocs, createDocument, upsertDoc, deleteDoc } from "../mongo";
+import { Request, Response, Application } from "express";
+import { CompanyFilterParam } from "../types";
+import { ObjectId } from "mongodb";
 
+//import seems not working with dotenv
 const dotenv = require("dotenv");
-const ENV = dotenv.config().parsed;
-const { MONGO_COLLECTION } = ENV;
+const { MONGO_COLLECTION } = dotenv.config().parsed;
 
-app.get("/", async (req, res) => {
+//get all docs
+app.get("/findAll", async (req: Request, res: Response) => {
   try {
     const data = await findAllDocs(MONGO_COLLECTION, {});
     res.send({
@@ -21,11 +25,28 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/find/:document", async (req, res) => {
-  const { document } = req.params;
-  console.log(document)
+// create filter by using info from request
+const getFilter = (params: string): CompanyFilterParam => {
+  const filterParam: any = {};
+  const filters = params.split("&");
+  filters.forEach((filter: any) => {
+    const [key, value] = filter.split("=");
+    if (key == "_id") {
+      filterParam[key] = new ObjectId(value);
+    } else {
+      filterParam[key] = { $eq: value };
+    }
+  });
+
+  return filterParam;
+};
+
+// find document based on filter params
+app.get("/find/:filterParams", async (req: Request, res: Response) => {
   try {
-    const data = await findAllDocs(MONGO_COLLECTION, {});
+    const { filterParams } = req.params;
+    const filter = getFilter(filterParams);
+    const data = await findAllDocs(MONGO_COLLECTION, filter);
     res.send({
       status: 200,
       message: data,
@@ -39,18 +60,115 @@ app.get("/find/:document", async (req, res) => {
   }
 });
 
-// (async () => {
-//   const data = await findAllDocs(MONGO_COLLECTION,{} );
+//post and create a new doc
+app.post("/createDocument", async (req: Request, res: Response) => {
+  try {
+    const { name, address } = req.body;
+    if (!name || !address) {
+      res.send({
+        status: 422,
+        message: "input lack one or two field",
+      });
+      return;
+    }
+    const data = await createDocument(MONGO_COLLECTION, { name, address });
+    res.send({
+      status: 200,
+      message: data,
+    });
+  } catch (e) {
+    console.log("error in createDocument", e);
+    res.send({
+      status: 500,
+      message: "server error",
+    });
+  }
+});
 
+interface SetParamInterface {
+  $set: Object;
+}
+
+//get set params by content provided
+const getSetParam = (content: Object): SetParamInterface => {
+  return { $set: { ...content } };
+};
+
+//update document by _id which is more secury and easy to find
+app.put("/updateById", async (req: Request, res: Response) => {
+  try {
+    // this means it has to have an valid _id
+    const { _id, ...content } = req.body;
+    if (!_id) {
+      res.send({
+        status: 422,
+        message: "_id is required",
+      });
+      return;
+    }
+
+    const filter = getFilter(`_id=${_id}`);
+    const setParam = getSetParam(content);
+
+    const data = await upsertDoc(MONGO_COLLECTION, filter, setParam);
+    res.send({
+      status: 200,
+      message: data,
+    });
+  } catch (e) {
+    console.log("error in '/updatebyId' put route", e);
+    res.send({
+      status: 500,
+      message: "server error",
+    });
+  }
+});
+
+// deleteDoc
+app.delete("/deleteById", async (req: Request, res: Response) => {
+  try {
+    const { _id } = req.body;
+    if (!_id) {
+      res.send({
+        status: 422,
+        message: "_id is required",
+      });
+      return;
+    }
+
+    const filter = getFilter(`_id=${_id}`);
+    // const setParam = getSetParam(content)
+    console.log("id her", filter);
+
+    const data = await deleteDoc(MONGO_COLLECTION, filter);
+    res.send({
+      status: 200,
+      message: data,
+    });
+  } catch (e) {
+    console.log("error in '/' get route", e);
+    res.send({
+      status: 500,
+      message: "server error",
+    });
+  }
+});
+
+(async () => {
+  const data = await findAllDocs(MONGO_COLLECTION, {});
   // const data = await findAllDocs(MONGO_COLLECTION, {"name":{$eq:"amazong"}});
   // const data = await deleteDoc(MONGO_COLLECTION,{"name":"test-three"})
-
-//   const filter= {"name":{$eq:"hi there"}}
-//   const newContent = {$set:{"name":"amazong"}}
-//   const data = await updateOneDoc(MONGO_COLLECTION,filter,newContent)
+  // const params = "name=amazong&_id=61434de5b6c8fd057b36d261";
+  // const filter = getFilter(params);
+  // console.log("filter \r\n", filter);
+  // const filter= {"name":{$eq:"amazong"},"address":{$eq:"mother earth"}}
+  //   const newContent = {$set:{"name":"amazong"}}
+  //
+  // const data = await findAllDocs(MONGO_COLLECTION, filter);
+  //   const data = await updateOneDoc(MONGO_COLLECTION,filter,newContent)
 
   // const tempCompany ={"name":"Amazing","address":"earth"}
   // const data = await createDocument("company",tempCompany)
 
-  // console.log("requested data", JSON.stringify(data));
-// })();
+  console.log("requested data", JSON.stringify(data));
+})();

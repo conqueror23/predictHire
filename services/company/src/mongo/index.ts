@@ -1,8 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const dotenv = require("dotenv");
-const ENV = dotenv.config().parsed;
-const { MONGO_URI, MONGO_DBNAME } = ENV;
+const { MONGO_URI, MONGO_DBNAME } = dotenv.config().parsed;
 
 const connectMongo = async (cb:Function) => {
   const client = new MongoClient(MONGO_URI);
@@ -16,11 +15,7 @@ const connectMongo = async (cb:Function) => {
   }
 };
 
-interface CompanyInfo {
-  name: string;
-  address: string;
-}
-
+//insert a doc
 const createDocument = async (
   collectionName: string,
   content: any
@@ -40,6 +35,7 @@ const createDocument = async (
     return connectMongo(insertDocQuery)
 };
 
+//find all docs
 const findAllDocs = async (collectionName: string,filters:Object) => {
 
   const findAllQuery = async (client:any) => {
