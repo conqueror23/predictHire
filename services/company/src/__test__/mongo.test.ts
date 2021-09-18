@@ -7,6 +7,7 @@ import {
 } from "../mongo";
 import {getSetParam} from '../utils'
 import { ObjectId } from "mongodb";
+import {server} from '../config'
 const { MONGO_URI, MONGO_DBNAME, MONGO_Collection } =
   require("dotenv").config().parsed;
 
@@ -71,6 +72,9 @@ describe("test for mongo operations", () => {
         const findResult = await findAllDocs(testCollection,mockFilter);
         expect(findResult.length).toBe(0);
     })
-
+    afterAll(done => {
+        server.close()
+        done();
+    });
 
 });

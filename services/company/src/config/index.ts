@@ -17,6 +17,6 @@ app.use(bodyParser.json({ type: "application/*+json", limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //listening port settings
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
