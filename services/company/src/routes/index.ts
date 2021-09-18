@@ -3,6 +3,7 @@ import { findAllDocs, createDocument, upsertDoc, deleteDoc } from "../mongo";
 import { Request, Response, Application } from "express";
 import { CompanyFilterParam } from "../types";
 import { ObjectId } from "mongodb";
+import {getSetParam} from '../utils'
 
 //import seems not working with dotenv
 const dotenv = require("dotenv");
@@ -26,7 +27,7 @@ app.get("/findAll", async (req: Request, res: Response) => {
 });
 
 // create filter by using info from request
-const getFilter = (params: string): CompanyFilterParam => {
+const getFilter = (params: string): Partial<CompanyFilterParam> => {
   const filterParam: any = {};
   const filters = params.split("&");
   filters.forEach((filter: any) => {
@@ -85,20 +86,12 @@ app.post("/createDocument", async (req: Request, res: Response) => {
   }
 });
 
-interface SetParamInterface {
-  $set: Object;
-}
-
-//get set params by content provided
-const getSetParam = (content: Object): SetParamInterface => {
-  return { $set: { ...content } };
-};
 
 //update document by _id which is more secury and easy to find
 app.put("/updateById", async (req: Request, res: Response) => {
   try {
     // this means it has to have an valid _id
-    const { _id, ...content } = req.body;
+    const { _id, ...content }:Partial<CompanyFilterParam> = req.body;
     if (!_id) {
       res.send({
         status: 422,
@@ -127,7 +120,7 @@ app.put("/updateById", async (req: Request, res: Response) => {
 // deleteDoc
 app.delete("/deleteById", async (req: Request, res: Response) => {
   try {
-    const { _id } = req.body;
+    const { _id }= req.body;
     if (!_id) {
       res.send({
         status: 422,
@@ -135,11 +128,7 @@ app.delete("/deleteById", async (req: Request, res: Response) => {
       });
       return;
     }
-
     const filter = getFilter(`_id=${_id}`);
-    // const setParam = getSetParam(content)
-    console.log("id her", filter);
-
     const data = await deleteDoc(MONGO_COLLECTION, filter);
     res.send({
       status: 200,
@@ -154,21 +143,3 @@ app.delete("/deleteById", async (req: Request, res: Response) => {
   }
 });
 
-(async () => {
-  const data = await findAllDocs(MONGO_COLLECTION, {});
-  // const data = await findAllDocs(MONGO_COLLECTION, {"name":{$eq:"amazong"}});
-  // const data = await deleteDoc(MONGO_COLLECTION,{"name":"test-three"})
-  // const params = "name=amazong&_id=61434de5b6c8fd057b36d261";
-  // const filter = getFilter(params);
-  // console.log("filter \r\n", filter);
-  // const filter= {"name":{$eq:"amazong"},"address":{$eq:"mother earth"}}
-  //   const newContent = {$set:{"name":"amazong"}}
-  //
-  // const data = await findAllDocs(MONGO_COLLECTION, filter);
-  //   const data = await updateOneDoc(MONGO_COLLECTION,filter,newContent)
-
-  // const tempCompany ={"name":"Amazing","address":"earth"}
-  // const data = await createDocument("company",tempCompany)
-
-  console.log("requested data", JSON.stringify(data));
-})();

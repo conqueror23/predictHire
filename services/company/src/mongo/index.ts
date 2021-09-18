@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import {CompanyFilterParam} from "../types";
 
 const dotenv = require("dotenv");
 const { MONGO_URI, MONGO_DBNAME } = dotenv.config().parsed;
@@ -14,6 +15,18 @@ const connectMongo = async (cb:Function) => {
     await client.close();
   }
 };
+
+
+//drop a collection
+const dropCollection = async (collectionName:string)=>{
+
+  const dropQuery = async (client:any)=>{
+    return client.db(MONGO_DBNAME).collection(collectionName).drop()
+  }
+  
+  return connectMongo(dropQuery)
+
+}
 
 //insert a doc
 const createDocument = async (
@@ -54,7 +67,7 @@ const findAllDocs = async (collectionName: string,filters:Object) => {
 };
 
 
-const updateOneDoc= async (collectionName:string,filter:Object,content:Object)=>{
+const updateOneDoc= async (collectionName:string,filter:Object,content:Partial<CompanyFilterParam>)=>{
     const updateQuery = async(client:any)=>{
         try{
             return await client.db(MONGO_DBNAME).collection(collectionName).updateOne(filter,content)
@@ -67,7 +80,7 @@ const updateOneDoc= async (collectionName:string,filter:Object,content:Object)=>
 }
 
 
-const upsertDoc=async (collectionName:string,filter:Object,content:Object)=>{
+const upsertDoc=async (collectionName:string,filter:Object,content:Partial<CompanyFilterParam>)=>{
     const upsertQuery = async (client:any)=>{
         try{
             return await client.db(MONGO_DBNAME).collection(collectionName).updateOne(filter,content,{upsert:true})
@@ -91,4 +104,4 @@ const deleteDoc= async (collectionName:string,content:Object)=>{
     return connectMongo(deleteQuery)
 }
 
-export {  findAllDocs, createDocument ,updateOneDoc,upsertDoc,deleteDoc};
+export {  findAllDocs, createDocument ,updateOneDoc,upsertDoc,deleteDoc,dropCollection};

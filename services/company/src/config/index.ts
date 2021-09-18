@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
 
-// parse application/json
+// request parse options
 app.use(bodyParser.json({ type: "application/*+json", limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
