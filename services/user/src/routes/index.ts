@@ -7,7 +7,18 @@ import {getSetParam} from '../utils'
 
 //import seems not working with dotenv
 const dotenv = require("dotenv");
-const { MONGO_COLLECTION } = dotenv.config().parsed;
+const { MONGO_COLLECTION ,MONGO_DBNAME} = dotenv.config().parsed;
+
+
+// add site live notice
+app.get("/", (req: Request, res: Response) => {
+  res.write("<html>");
+  res.write("<body>");
+  res.write(`<h1>${MONGO_DBNAME}</h1>`);
+  res.write("</body>");
+  res.write("</html>");
+  res.end();
+});
 
 //get all docs
 app.get("/findAll", async (req: Request, res: Response) => {

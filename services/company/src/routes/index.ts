@@ -3,11 +3,21 @@ import { findAllDocs, createDocument, upsertDoc, deleteDoc } from "../mongo";
 import { Request, Response, Application } from "express";
 import { CompanyFilterParam } from "../types";
 import { ObjectId } from "mongodb";
-import {getSetParam} from '../utils'
+import { getSetParam } from "../utils";
 
 //import seems not working with dotenv
 const dotenv = require("dotenv");
-const { MONGO_COLLECTION } = dotenv.config().parsed;
+const { MONGO_COLLECTION, MONGO_DBNAME } = dotenv.config().parsed;
+
+// add site live notice
+app.get("/", (req: Request, res: Response) => {
+  res.write("<html>");
+  res.write("<body>");
+  res.write(`<h1>${MONGO_DBNAME}</h1>`);
+  res.write("</body>");
+  res.write("</html>");
+  res.end();
+});
 
 //get all docs
 app.get("/findAll", async (req: Request, res: Response) => {
@@ -86,12 +96,11 @@ app.post("/createDocument", async (req: Request, res: Response) => {
   }
 });
 
-
 //update document by _id which is more secury and easy to find
 app.put("/updateById", async (req: Request, res: Response) => {
   try {
     // this means it has to have an valid _id
-    const { _id, ...content }:Partial<CompanyFilterParam> = req.body;
+    const { _id, ...content }: Partial<CompanyFilterParam> = req.body;
     if (!_id) {
       res.send({
         status: 422,
@@ -120,7 +129,7 @@ app.put("/updateById", async (req: Request, res: Response) => {
 // deleteDoc
 app.delete("/deleteById", async (req: Request, res: Response) => {
   try {
-    const { _id }= req.body;
+    const { _id } = req.body;
     if (!_id) {
       res.send({
         status: 422,
@@ -142,4 +151,3 @@ app.delete("/deleteById", async (req: Request, res: Response) => {
     });
   }
 });
-
