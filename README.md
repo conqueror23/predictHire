@@ -30,6 +30,9 @@ Back-end services:
 
 ### front-end :
 1. user login page (authentication & ui)
+    1. login logic, request send to bff
+    2. user status control, page redirecting controls
+    
 2. dashboard page after login
     1. user
         1. user can only view all the vacancies
