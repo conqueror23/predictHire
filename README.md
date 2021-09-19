@@ -9,9 +9,11 @@
 
 ## Project structure
 
-Front-end NextJs: for reveal front end UIs, could be simple info display for this test (cross-browser and cross-devices may not designedand implemented) [nextjs,reactjs,typescript,jest]
+Nextjs:
 
-BFF: services to gather request from front-end and to sent to different services [nextjs,nodejs,typescript,jest]
+    Front-end NextJs: for reveal front end UIs, could be simple info display for this test (cross-browser and cross-devices may not designedand implemented) [nextjs,reactjs,typescript,jest]
+
+    BFF: services to gather request from front-end and to sent to different services [nextjs,nodejs,typescript,jest]
 
 Back-end services:
 
@@ -23,3 +25,30 @@ Back-end services:
     
     [nodejs,typescript,jest,mongodb,redis?]
 
+
+## Requirement breakdowns:
+
+### front-end :
+1. user login page (authentication & ui)
+2. dashboard page after login
+    1. user
+        1. user can only view all the vacancies
+    2. admin
+        2. view, create , update delete vacancies
+            1. a input page , component for user to input the data
+
+-- grapqhl client
+
+### backend-for front-end :
+
+1. user login info check
+2. vacancies info check and controls 
+
+-- graphql server
+
+    
+
+### microservices:
+1. company info controls
+2. user info controls
+3. vacancie info controls
