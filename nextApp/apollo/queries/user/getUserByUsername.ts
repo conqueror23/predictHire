@@ -5,7 +5,6 @@ query GetUsers$($username:String!){
     user (where:{usename:{$eq:$username}}){
         usename
         password
-    }
-    
+    }    
 }
 `
