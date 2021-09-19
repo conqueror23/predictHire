@@ -39,6 +39,7 @@ Back-end services:
     2. admin
         2. view, create , update delete vacancies
             1. a input page , component for user to input the data
+            2. input check and data update (request)
 
 -- grapqhl client
 
