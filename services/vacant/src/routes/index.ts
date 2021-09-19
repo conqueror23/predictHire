@@ -74,15 +74,15 @@ app.get("/find/:filterParams", async (req: Request, res: Response) => {
 //post and create a new doc
 app.post("/createDocument", async (req: Request, res: Response) => {
   try {
-    const {title,description,expireAt} = req.body;
-    if (!title || !description || !expireAt) {
+    const {title,description,expireAt,companyId} = req.body;
+    if (!title || !description || !expireAt || !companyId) {
       res.send({
         status: 422,
-        message: "input lack one or two field",
+        message: "input lack one or two field required fields [title,description,expiredAt,companyId",
       });
       return;
     }
-    const data = await createDocument(MONGO_COLLECTION, {title,description,expireAt});
+    const data = await createDocument(MONGO_COLLECTION, {title,description,expireAt,companyId});
     res.send({
       status: 200,
       message: data,
