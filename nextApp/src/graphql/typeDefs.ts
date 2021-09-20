@@ -40,8 +40,18 @@ type User{
         password:String
     }
 
+    input VacantInput{
+        _id:ID
+        companyId:ID!
+        title:String!
+        description:String
+        expiredAt:String
+        token:String
+    }
+
     type Mutation{
         login(loginInput:LoginInput):User!
+        createVacant(vacanInput:VacantInput):Vacant!
     }
 
 `;

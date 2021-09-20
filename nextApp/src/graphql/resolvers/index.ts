@@ -10,7 +10,7 @@ export const resolvers = {
         ...vacantResolvers.Query
     },
     Mutation:{
-        ...userResolvers.Mutation
-
+        ...userResolvers.Mutation,
+        ...vacantResolvers.Mutation
     }
 }

@@ -52,6 +52,21 @@ const findOne = async (dataSource:string,params:string)=>{
     return dataSet[0]
 }
 
+const axiosConfig ={  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+    "Access-Control-Allow-Origin": "*",
+}}
+const createOne = async(datasource:string,documentContext:Object)=>{
+    console.log('we are here',documentContext)
+    const {companyId,title,description} = documentContext
+
+    const response = await axios.post(BASE_URLS[datasource],{companyId,title,description},axiosConfig);
+    console.log('response',response)
+    const dataSet = await response.data.message
+    console.log('create reuslt',dataSet);
+    return dataSet
+}
 
 
-export { fetchAll, findOne };
+
+export { fetchAll, findOne ,createOne};
