@@ -1,8 +1,13 @@
-import {gql , ApolloServer} from 'apollo-server-micro'
-import {schema} from 'apollo/schema'
-import UserSchema from './user/userQuery'
+import { ApolloServer} from 'apollo-server-micro'
+
+import {schema} from 'lib/schema'
+import UserSchema from './user/userSchema'
 // send request to other backend not 
-const server = new ApolloServer({ schema: UserSchema});
+import {typeDefs,resolvers} from 'src/graphql'
+
+const server = new ApolloServer({ 
+    typeDefs,resolvers
+});
 const handler = server.createHandler({path:"/api/graphql"});
 
 

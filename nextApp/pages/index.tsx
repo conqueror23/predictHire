@@ -15,8 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {useRouter} from 'next/router'
 
 // can be used potentially to sent login info through graphql to restful apis
-import { initializeApollo } from "../apollo/apollo";
-import { FIND_USER_BY_USERNAME } from "../apollo/queries";
+import { initializeApollo } from "../lib/apollo";
+import { FIND_USER_BY_USERNAME } from "../lib/queries";
 import { useQuery, gql } from "@apollo/client";
 
 function Copyright(props: any) {

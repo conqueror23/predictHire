@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../apollo/apollo";
+import { useApollo } from "../lib/apollo";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apoloClient = useApollo(pageProps.initialApoloState);
