@@ -49,7 +49,6 @@ const fetchAll =async (dataSource:string)=>{
 const findOne = async (dataSource:string,params:string)=>{
     const response = await axios.get(BASE_URLS[dataSource]+REQUESTS.FIND+`${params}`);
     const dataSet = await response.data.message 
-    console.log("data set here",dataSet)
     return dataSet[0]
 }
 

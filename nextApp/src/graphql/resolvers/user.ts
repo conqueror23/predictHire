@@ -1,8 +1,6 @@
 import { gql, ApolloError, ApolloServer } from "apollo-server-micro";
 import { fetchAll ,findOne } from "src/utils";
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import e from "express";
 const SECRETE_KEY = "encryption secrete here"; 
 export const userResolvers = {
   Query: {
@@ -23,6 +21,7 @@ export const userResolvers = {
         ) {
           const res = await findOne("USER",`/username=${username}&password=${password}`) 
           if(res){
+            // generate a token for valid existing users only
             const token = jwt.sign(
                 {
                   username: res.username,
@@ -31,15 +30,12 @@ export const userResolvers = {
                 SECRETE_KEY,
                 {expiresIn: "24h" }
               );
-              console.log('you got a token',token);
               return {
                 ...res,
                 token,
               };
             }else{
-                return {
-                    token:"user does not exist"
-                }
+                throw new ApolloError("User dose not exst","404");
             }
         },
   },
