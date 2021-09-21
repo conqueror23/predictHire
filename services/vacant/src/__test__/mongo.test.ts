@@ -22,7 +22,7 @@ describe("test for mongo operations", () => {
   let mockFilter = {
     title: { $eq: mockDoc.title },
     description: { $eq: mockDoc.description },
-    expireAt: { $eq: mockDoc.expiredAt },
+    expiredAt: { $eq: mockDoc.expiredAt },
   };
   let idFilter = { _id: {} };
 
@@ -69,7 +69,7 @@ describe("test for mongo operations", () => {
     mockFilter = {
     title: { $eq: mockDoc.title },
     description: { $eq: mockDoc.description },
-    expireAt: { $eq: mockDoc.expiredAt },
+    expiredAt: { $eq: mockDoc.expiredAt },
     };
     const findResult = await findAllDocs(testCollection, mockFilter);
     expect(findResult.length).toBe(0);

@@ -9,7 +9,7 @@ type User{
         name:String
         password:String
         token:String
-        role:String
+        role:String!
     }
 
     type Company{
@@ -42,16 +42,23 @@ type User{
 
     input VacantInput{
         _id:ID
-        companyId:ID!
-        title:String!
+        companyId:ID
+        title:String
         description:String
         expiredAt:String
         token:String
     }
 
+    type queryOutput{
+        status: Int!
+        message:String
+    }
+
     type Mutation{
         login(loginInput:LoginInput):User!
-        createVacant(vacanInput:VacantInput):Vacant!
+        createVacant(vacantInput:VacantInput):Vacant!
+        updateVacant(vacantInput:VacantInput):Vacant!
+        deleteVacant(vacantInput:VacantInput):queryOutput!
     }
 
 `;

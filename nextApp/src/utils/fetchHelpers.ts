@@ -1,3 +1,4 @@
+import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 import { dialogTitleClasses } from "@mui/material";
 import axios from "axios";
 import config from "next/config";
@@ -28,9 +29,9 @@ interface RequestsConfig {
 const REQUESTS:RequestsConfig={
     FINDALL:"/findALL",
     FIND:"/find",
-    CREATE:"createDocument",
-    UPDATE:"updateById",
-    DELETE:"deleteById",
+    CREATE:"/createDocument",
+    UPDATE:"/updateById",
+    DELETE:"/deleteById",
 }
 
 interface RequestParams {
@@ -38,35 +39,41 @@ interface RequestParams {
   method: string;
 }
 
-
+// we might want to standardise the code returning process
+// return the code directly from backend may keep the proces simple f
 
 const fetchAll =async (dataSource:string)=>{
     const response = await axios.get(BASE_URLS[dataSource]+REQUESTS.FINDALL);
-    const dataSet = await response.data.message;
-    return dataSet;
+    const message = await response.data.message;
+    return message;
 }
 
 const findOne = async (dataSource:string,params:string)=>{
     const response = await axios.get(BASE_URLS[dataSource]+REQUESTS.FIND+`${params}`);
-    const dataSet = await response.data.message 
-    return dataSet[0]
+    const message = await response.data.message 
+    return message[0]
 }
 
-const axiosConfig ={  headers: {
-    'Content-Type': 'application/json;charset=UTF-8',
-    "Access-Control-Allow-Origin": "*",
-}}
-const createOne = async(datasource:string,documentContext:Object)=>{
-    console.log('we are here',documentContext)
-    const {companyId,title,description} = documentContext
+const createOne = async(dataSource:string,documentContext:Object)=>{
+    const response = await axios.post(BASE_URLS[dataSource]+REQUESTS.CREATE,documentContext);
+    const message = await response.data.message
+    return message
+}
 
-    const response = await axios.post(BASE_URLS[datasource],{companyId,title,description},axiosConfig);
-    console.log('response',response)
-    const dataSet = await response.data.message
-    console.log('create reuslt',dataSet);
-    return dataSet
+const upsertDoc = async (dataSource:string,documentContext:Object)=>{
+    const response  = await axios.put(BASE_URLS[dataSource]+REQUESTS.UPDATE,documentContext);
+    const message = await response.data.message
+    return message
+
+}
+
+const deleteDoc = async ( dataSource:string,documentContext:Object)=>{
+
+    const response = await axios.delete(BASE_URLS[dataSource]+REQUESTS.DELETE,{data:documentContext});
+    const data = await response.data
+    return data
+
 }
 
 
-
-export { fetchAll, findOne ,createOne};
+export { fetchAll, findOne ,createOne,upsertDoc,deleteDoc};
