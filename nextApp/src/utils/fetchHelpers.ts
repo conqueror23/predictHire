@@ -7,6 +7,7 @@ interface UrlConfig {
   VACANT: string;
 }
 
+// these config can be read from envs for future uses
 const BASE_URLS: UrlConfig = {
   COMPANY: "http://localhost:3001",
   USER: "http://localhost:3002",

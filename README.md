@@ -41,8 +41,6 @@ Back-end services:
 -- graphql server localhost:3000/graphql
 
 
-    
-
 ### microservices:
 1. company info controls
 2. user info controls

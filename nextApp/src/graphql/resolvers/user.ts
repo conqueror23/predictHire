@@ -33,7 +33,6 @@ export const userResolvers = {
       const uesrRecord = res.message[0];
       if (res && uesrRecord) {
         // generate a token for valid existing users only
-
         const token = genToken({
           username: uesrRecord.username,
           role: uesrRecord.role,
@@ -47,7 +46,6 @@ export const userResolvers = {
           status: res.status,
           message: "username password is unmatched",
         };
-        // throw new ApolloError("User dose not exst","404");
       }
     },
   },
