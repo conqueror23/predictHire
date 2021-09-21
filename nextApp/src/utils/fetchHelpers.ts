@@ -33,11 +33,6 @@ const REQUESTS: RequestsConfig = {
   DELETE: "/deleteById",
 };
 
-interface RequestParams {
-  url: string;
-  method: string;
-}
-
 // we might want to standardise the code returning process
 // return the code directly from backend may keep the proces simple f
 
