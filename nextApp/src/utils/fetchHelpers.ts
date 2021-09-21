@@ -50,19 +50,19 @@ const fetchAll =async (dataSource:string)=>{
 
 const findOne = async (dataSource:string,params:string)=>{
     const response = await axios.get(BASE_URLS[dataSource]+REQUESTS.FIND+`${params}`);
-    const message = await response.data.message 
-    return message[0]
+    const message = await response.data
+    return message
 }
 
 const createOne = async(dataSource:string,documentContext:Object)=>{
     const response = await axios.post(BASE_URLS[dataSource]+REQUESTS.CREATE,documentContext);
-    const message = await response.data.message
+    const message = await response.data
     return message
 }
 
 const upsertDoc = async (dataSource:string,documentContext:Object)=>{
     const response  = await axios.put(BASE_URLS[dataSource]+REQUESTS.UPDATE,documentContext);
-    const message = await response.data.message
+    const message = await response.data
     return message
 
 }

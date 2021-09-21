@@ -49,16 +49,16 @@ type User{
         token:String
     }
 
-    type queryOutput{
+    type QueryOutput{
         status: Int!
         message:String
     }
 
     type Mutation{
         login(loginInput:LoginInput):User!
-        createVacant(vacantInput:VacantInput):Vacant!
-        updateVacant(vacantInput:VacantInput):Vacant!
-        deleteVacant(vacantInput:VacantInput):queryOutput!
+        createVacant(vacantInput:VacantInput):QueryOutput!
+        updateVacant(vacantInput:VacantInput):QueryOutput!
+        deleteVacant(vacantInput:VacantInput):QueryOutput!
     }
 
 `;

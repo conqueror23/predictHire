@@ -3,9 +3,22 @@ import {fetchAll,createOne, ifAdminToken, findOne,upsertDoc, deleteDoc} from 'sr
 
 const DataSource ="VACANT"
 
+/**
+ *  Vacant Resolvers 
+ *  Includes :
+ *      Querys :
+ *         Vacants: show all vacants
+ *      Mutations:
+ *          createVacant
+ *          updateVacant
+ *          deleteVacant
+ */
+
 export const vacantResolvers={
     Query:{
         Vacants:async()=>{
+            // all users (user & admin) are avilable to see all the vacancies
+            // if there are login requirements an authentication may need to be added 
             try{
                 return await fetchAll(DataSource);
             }catch(e){
@@ -14,31 +27,35 @@ export const vacantResolvers={
         }
     },
     Mutation:{
+        // create vacant 
         async createVacant(parent,{vacantInput},context,info){
-            
-            const {token,...vacantData} = vacantInput
+            //_id was taken out as it is an object id that mongodb ususally use 
+            const {token,_id,...vacantData} = vacantInput
             const isAdmin= await ifAdminToken(token);
             if(isAdmin){
                     // before insert , check if exist avoid duplicate
-                    // Main tag is companyId and job title, which could be improved by adding more params or using _id to increate differentiate ability
-                    const queryPattern = `/companyId=${vacantData.companyId}&title=${vacantData.title}`
-                    const ifExist =  await findOne(DataSource,queryPattern);
-                    // duplicate controls
-                    if(ifExist &&ifExist._id){
-                        throw new ApolloError("Vacant already exist")
-                    }else{
-                        const insertRes = await createOne(DataSource,vacantData);
-                        const insertedData = await findOne(DataSource,`/_id=${insertRes.insertedId}`)
-                        console.log('in sertedData',insertedData);
+                    // changed to adapt all the input from the user to avoid the most duplicate
+                    const entry = Object.entries(vacantData).map(ele=>ele.join('=')).join('&');
+                    const findRes =  await findOne(DataSource,`/${entry}`);
+                    if(findRes && findRes.message.length>0){
+                    //record alread exist no create action
                         return {
-                            ...insertedData
-                        }
+                                    status:500,
+                                    message:"Vacant aleardy exist"
+                                }
+                    }else{
+                    // vacant not exist safe to crearte new one
+                         const insertRes = await createOne(DataSource,vacantData);
+                        return {
+                            status:200,
+                            message:`Vacannt created _id: ${insertRes.message.insertedId}`
+                        } 
                     }
             }else{
                 throw new ApolloError("Admin previlege required")
             }
-            
         },
+        // update vacant
         async updateVacant(parent,{vacantInput},context,info){
             const {token,...vacantData} = vacantInput
             const isAdmin= await ifAdminToken(token);
@@ -46,16 +63,24 @@ export const vacantResolvers={
                 //updata document probably use the _id would be most solid as it is unique 
                 //we can assume that the user can get the _id as user got the vacant list before operate
                 const updateRes = await upsertDoc(DataSource,vacantData);
-                if(updateRes && updateRes.upsertedId){
-                    const insertedDoc = await findOne(DataSource,`/_id=${vacantData._id}`);
-                    return insertedDoc
+                console.log('updateRes',updateRes)
+                const changedId =updateRes.message.upsertedId;
+                if(!changedId){
+                    return {
+                        status: updateRes.status,
+                        message:`record has been udpated`
+                    }
                 }else{
-                    return vacantInput
+                    return {
+                        status:updateRes.status,
+                        message: `No record has been found, new record added with _id ${changedId}`
+                    }
                 }
             }else{
                 throw new ApolloError("Admin previlege required")
             }
         },
+        // delete vacant
         async deleteVacant(parent,{vacantInput},context,info){
             const {token,...vacantData} = vacantInput
             const isAdmin= await ifAdminToken(token);
@@ -63,7 +88,6 @@ export const vacantResolvers={
                 // delete vacant based on _id is more reliable 
                 // if the _id of that record does not exist error would be responsed from api 
                 const deleteRes = await deleteDoc(DataSource,vacantData);
-                console.log('dlete res',deleteRes.message.deletedCount)
                 if(!deleteRes.message.deletedCount){
                     return {
                         status:deleteRes.status,
@@ -75,9 +99,7 @@ export const vacantResolvers={
                         message:"Record has been deleted"
                     }
                 }
-                return deleteRes
                 
-
             }else{
                 throw new ApolloError("Admin previlege required")
             }    
