@@ -3,7 +3,7 @@
 This is nextjs project embedded with front-end uis and route apis as the BFF of the whole project
 
 The Front-end integrated apollo-client
-The back-end integrated apollo-server to handling requests to other microservices
+The back-end integrated apollo-server to handling requests to other microservices (BFF)
 
 ## BFF features included
 
