@@ -1,5 +1,13 @@
 # predictHire
 
+## commands to run
+
+essential requirements: node , docker, docker-compose 
+project has been integrated and a simple npm start command can start all three services (user port: 3001, company: 3002 : vacant : 3003) and the nextjs BFF in port 3000
+
+npm run start
+
+
 ## Thoughts:
 1. for simplicity purpose all three services are combined in one repo it can be seperated to individual repos in real daily use, we might potentially use docker-compose to create envs for all three and treated it as a big project.
 2. Do we need to seperate BFF layer out fron front-end or if we could use then in the same nextjs project ? Since Nextjs provid a API routes setup we could pontential use it as a BFF for this project
@@ -10,9 +18,6 @@
 ## Project structure
 
 Nextjs:
-
-    Front-end NextJs: for reveal front end UIs, could be simple info display for this test (cross-browser and cross-devices may not designedand implemented) [nextjs,reactjs,typescript,jest]
-
     BFF: services to gather request from front-end and to sent to different services [nextjs,nodejs,typescript,jest]
 
 Back-end services:
@@ -28,27 +33,13 @@ Back-end services:
 
 ## Requirement breakdowns:
 
-### front-end :
-1. user login page (authentication & ui)
-    1. login logic, request send to bff
-    2. user status control, page redirecting controls
-    
-2. dashboard page after login
-    1. user
-        1. user can only view all the vacancies
-    2. admin
-        2. view, create , update delete vacancies
-            1. a input page , component for user to input the data
-            2. input check and data update (request)
-
--- grapqhl client
-
 ### backend-for front-end :
 
 1. user login info check
 2. vacancies info check and controls 
 
--- graphql server
+-- graphql server localhost:3000/graphql
+
 
     
 
