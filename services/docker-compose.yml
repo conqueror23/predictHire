@@ -14,18 +14,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: root
-
-
-
-  # nginx:
-  #   build: ./nginx
-  #   container_name: ph_nginx
-  #   depends_on:
-  #     - company
-  #     - user
-  #     - vacant
-  #   ports:
-  #     - 80:80
+    commands:
+      - mongoimport --uri mongodb+srv://root:root@localhost:27017/predictiveHire-company" --collection=company  ./company/mockup/company.json --jsonArray
 
   company:
     build: ./company
