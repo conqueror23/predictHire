@@ -7,50 +7,38 @@ services:
     restart: always
     ports:
       - "27018:27017"
-    # volumes:
-    #   - "./mongo:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: root
-    commands:
-      - mongoimport --uri mongodb+srv://root:root@localhost:27017/predictiveHire-company" --collection=company  ./company/mockup/company.json --jsonArray
+    working_dir: "/mockup"
+    volumes:
+      - ./mockup:/mockup/
 
   company:
     build: ./company
     container_name: ph_company
     depends_on:
       - "mongo"
-    volumes:
-      - "./company:/src/app"
-    working_dir: "/src/app"
     ports:
       - "3001:3001"
-    command: "npm run start"
+    command: npm run start
 
   user:
     build: ./user
     container_name: ph_user
     depends_on:
       - "mongo"
-    volumes:
-      - "./user:/src/app"
-    working_dir: "/src/app"
     ports:
       - "3002:3002"
-    command: "npm run start"
-
+    command: npm run start
 
   vacant:
     build: ./vacant
     container_name: ph_vacant
     depends_on:
       - "mongo"
-    volumes:
-      - "./vacant:/src/app"
-    working_dir: "/src/app"
     ports:
       - "3003:3003"
-    command: "npm run start"
-
+    command: npm run start
