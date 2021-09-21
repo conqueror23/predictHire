@@ -1,12 +1,4 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from "@apollo/client";
-import getConfig from "next/config";
-
-const { publicRuntimeConfig } = getConfig();
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 const createIsomorphicLink = () => {
   if (typeof window == undefined) {
@@ -19,7 +11,6 @@ const createIsomorphicLink = () => {
     return new HttpLink({ uri: "/api/graphql" });
   }
 };
-
 
 const createApolloClient = () => {
   return new ApolloClient({
