@@ -7,6 +7,7 @@ export const genToken = async (tokenContent: Object) => {
 
 export const ifAdminToken = async (token: string) => {
   const verifiedToken = await jwt.verify(token, SECRETE_KEY);
+  // @ts-ignore next line ignored by ts as role may not often exist in regular jwt verify process
   return verifiedToken.role === "admin" ? true : false;
 };
 

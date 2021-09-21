@@ -1,7 +1,4 @@
-import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
-import { dialogTitleClasses } from "@mui/material";
 import axios from "axios";
-import config from "next/config";
 
 interface UrlConfig {
   [key: string]: string;

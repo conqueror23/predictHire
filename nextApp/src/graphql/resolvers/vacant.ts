@@ -36,6 +36,7 @@ export const vacantResolvers = {
   },
   Mutation: {
     // create vacant
+    // @ts-ignore  ignore next line as wanted to keep the structrue clear in the reolver
     async createVacant(parent, { vacantInput }, context, info) {
       //_id was taken out as it is an object id that mongodb ususally use
       const { token, _id, ...vacantData } = vacantInput;
@@ -66,6 +67,7 @@ export const vacantResolvers = {
       }
     },
     // update vacant
+    // @ts-ignore  ignore next line as wanted to keep the structrue clear in the reolver
     async updateVacant(parent, { vacantInput }, context, info) {
       const { token, ...vacantData } = vacantInput;
       const isAdmin = await ifAdminToken(token);
@@ -91,6 +93,7 @@ export const vacantResolvers = {
       }
     },
     // delete vacant
+    // @ts-ignore  ignore next line as wanted to keep the structrue clear in the reolver
     async deleteVacant(parent, { vacantInput }, context, info) {
       const { token, ...vacantData } = vacantInput;
       const isAdmin = await ifAdminToken(token);

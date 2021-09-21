@@ -22,6 +22,7 @@ export const userResolvers = {
   },
   Mutation: {
     // user login
+    // @ts-ignore  ignore next line as wanted to keep the structrue clear in the reolver
     async login(parent, { loginInput: { username, password } }, context, info) {
       const res = await findDoc(
         DataSource,
