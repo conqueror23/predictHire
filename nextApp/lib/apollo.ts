@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import createApolloClient from './apolloClient';
-import {ApolloClient,NormalizedCacheObject} from '@apollo/client'
+import { useMemo } from "react";
+import createApolloClient from "./apolloClient";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 
-let apolloClient:ApolloClient<NormalizedCacheObject>;
+let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
@@ -19,7 +19,7 @@ export function initializeApollo(initialState = null) {
   }
 
   // For SSG and SSR always create a new Apollo Client
-  if (typeof window === 'undefined') return _apolloClient;
+  if (typeof window === "undefined") return _apolloClient;
 
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient;
