@@ -11,7 +11,8 @@ export const ifAdminToken = async (token: string) => {
   return verifiedToken.role === "admin" ? true : false;
 };
 
-// could think about how to wrap it up and used in resolvers
+// could think about how to wrap it up and used in resolvers unused
+// probably could use a encapulation to simply adminOperations, need times to dig in
 export const adminOnlyOpertaion = async (input: any, operation: Function) => {
   const { token } = input;
   const isAdmin = await ifAdminToken(token);
