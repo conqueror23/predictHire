@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "dependencies": {
     "@apollo/client": "^3.4.12",
@@ -29,6 +29,7 @@
     "micro": "^9.3.4",
     "mongoose": "^6.0.6",
     "next": "11.1.2",
+    "prettier": "^2.4.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
