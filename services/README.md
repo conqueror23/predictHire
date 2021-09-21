@@ -11,5 +11,6 @@
 
 # how to start services
  to start all services 
- jump to "/services" folder where the docker-compose.yml file is located
+ jump to "/services" folder where the docker-compose.yml file is located runs required to have docker-compose tool 
+
  docker-compose up 
