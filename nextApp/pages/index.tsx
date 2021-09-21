@@ -12,12 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {useRouter} from 'next/router'
-
+import { useRouter } from "next/router";
 // can be used potentially to sent login info through graphql to restful apis
-import { initializeApollo } from "../lib/apollo";
-import { FIND_USER_BY_USERNAME } from "../lib/queries";
-import { useQuery, gql } from "@apollo/client";
 
 function Copyright(props: any) {
   return (
@@ -51,19 +47,18 @@ export default function SignIn() {
         "username"
       )}&password=${submit.get("password")}`
     );
-      const {message} = await result.json();
-    if (message.length>0) {
+    const { message } = await result.json();
+    if (message.length > 0) {
       //navitage to dashboard
       // save user data including user
-      localStorage.setItem("user-username",message[0].username);
-      localStorage.setItem("user-role",message[0].role);
-      localStorage.setItem("user-name",message[0].name)
-      router.push('/dashboard')
+      localStorage.setItem("user-username", message[0].username);
+      localStorage.setItem("user-role", message[0].role);
+      localStorage.setItem("user-name", message[0].name);
+      router.push("/dashboard");
     } else {
       //simple error warnings
       alert("username password unmatch");
     }
-
   };
 
   return (
@@ -142,19 +137,3 @@ export default function SignIn() {
   );
 }
 
-//set serversider rendering
-//  export const getStaticProps=async()=>{
-//    const apolloClient = initializeApollo();
-//    populate query result in cache
-
-//    await apolloClient.query({
-//      query: FIND_USER_BY_USERNAME,
-//      variables:{ username: 'bruce'},
-//    });
-
-//   await apolloClient.query({
-//     query:MyQuery
-//   })
-
-//  return {props:{initializeApollo: apolloClient.cache.extract()}}
-// }

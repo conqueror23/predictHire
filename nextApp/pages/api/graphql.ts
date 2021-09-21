@@ -1,20 +1,16 @@
-import { ApolloServer} from 'apollo-server-micro'
+import { ApolloServer } from "apollo-server-micro";
+import { typeDefs, resolvers } from "src/graphql";
 
-import {schema} from 'lib/schema'
-import UserSchema from './user/userSchema'
-// send request to other backend not 
-import {typeDefs,resolvers} from 'src/graphql'
-
-const server = new ApolloServer({ 
-    typeDefs,resolvers
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
 });
-const handler = server.createHandler({path:"/api/graphql"});
+const handler = server.createHandler({ path: "/api/graphql" });
 
-
-export const config ={
-    api:{
-        bodyParser:false
-    }
-}
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default handler;
