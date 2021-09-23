@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "add-mockup": "mongoimport --host localhost --port 27018 --username root --password root --authenticationDatabase admin --db predictiveHire-company  --collection company --type json --file ./mockup/company.json --jsonArray && mongoimport --host localhost --port 27018 --username root --password root --authenticationDatabase admin --db predictiveHire-user  --collection user  --file ./mockup/users.json --jsonArray",
-    "dev": "npm run add-mockup && next dev",
+    "dev:mock": "npm run add-mockup && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -21,6 +22,7 @@
     "graphql": "^15.5.3",
     "jsonwebtoken": "^8.5.1",
     "next": "11.1.2",
+    "predictHire": "file:..",
     "prettier": "^2.4.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
