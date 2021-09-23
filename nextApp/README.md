@@ -74,7 +74,7 @@ query{
 
 ### mutations:
 
-use cases: 
+use cases (samples): 
 #### login  mutaion:
 
 mutation{
