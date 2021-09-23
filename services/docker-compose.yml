@@ -15,6 +15,7 @@ services:
     working_dir: "/mockup"
     volumes:
       - ./mockup:/mockup/
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   company:
     build: ./company

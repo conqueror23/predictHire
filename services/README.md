@@ -14,3 +14,7 @@
  jump to "/services" folder where the docker-compose.yml file is located runs required to have docker-compose tool 
 
  docker-compose up 
+
+# mockups
+mockup files has been added under "/services/mockup folder
+and the database initiation process may occurs when the mongodb serices is started, you can changed it before the serices started and the initated database will changed accoridngly

@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "add-mockup": "mongoimport --host localhost --port 27018 --username root --password root --authenticationDatabase admin --db predictiveHire-company  --collection company --type json --file ./mockup/company.json --jsonArray && mongoimport --host localhost --port 27018 --username root --password root --authenticationDatabase admin --db predictiveHire-user  --collection user  --file ./mockup/users.json --jsonArray",
-    "dev:mock": "npm run add-mockup && next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

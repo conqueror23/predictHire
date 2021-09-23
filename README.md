@@ -5,23 +5,8 @@
 essential requirements: node , docker, docker-compose 
 project has been integrated and a simple npm start command can start all three services (user port: 3001, company: 3002 : vacant : 3003) and the nextjs BFF in port 3000
 added the mockup data manually through localhost:27018
-dataBases needed:
-
-db: predictiveHire-company:
-collection:    company:
-db:predictiveHire-user:
-collection: user
-db:predictiveHire-vacant:
-collection: vacant
-
-user collection is needed as the action are role based you may need an admin  role to do vacant manipulations 
 
 npm run start
-
-mongodb cli needed to add mockup data with initialtion
-
-npm run start:mockup
-
 
 ## Project structure
 
